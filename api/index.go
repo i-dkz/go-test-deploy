@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -217,8 +216,11 @@ func Main() {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Success</h1>")
-	RenderTemplate(w, "index", techStack)
+	// fmt.Fprintf(w, "<h1>Success</h1>")
+	err := templates.ExecuteTemplate(w, "index.html", techStack)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 // func HandleIndex(w http.ResponseWriter, r *http.Request) {
@@ -249,9 +251,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 // 	}
 // }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	err := templates.ExecuteTemplate(w, tmpl+".html", data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
+// func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
+// 	err := templates.ExecuteTemplate(w, tmpl+".html", data)
+// 	if err != nil {
+// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+// 	}
+// }
