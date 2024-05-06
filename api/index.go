@@ -198,7 +198,7 @@ var templates = template.Must(template.ParseFiles("api/links.html"))
 // }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	err := templates.ExecuteTemplate(w, "links.html", nil)
+	err := templates.ExecuteTemplate(w, "api/links.html", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
