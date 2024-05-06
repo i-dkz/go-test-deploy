@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"text/template"
 )
 
 // type StackData struct {
@@ -33,7 +32,7 @@ import (
 // 	"tag.html",
 // ))
 
-var templates = template.Must(template.ParseFiles("api/links.html"))
+// var templates = template.Must(template.ParseFiles("api/links.html"))
 
 // var techStack = map[string][]StackData{
 // 	"tech": {
