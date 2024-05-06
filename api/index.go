@@ -197,7 +197,7 @@ import (
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	tmpl, err := template.ParseFiles("links.html")
+	tmpl, err := template.ParseFiles("../links.html")
 	if err != nil {
 		log.Fatal(err)
 	}
