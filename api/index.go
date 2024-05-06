@@ -20,15 +20,15 @@ type TagData struct {
 }
 
 var templates = template.Must(template.ParseFiles(
-	"views/index.html",
-	"views/projects.html",
-	"views/blog.html",
-	"views/components/main.html",
-	"views/components/header.html",
-	"views/components/footer.html",
-	"views/components/modal.html",
-	"views/components/main-htmx.html",
-	"views/components/tag.html",
+	"home.html",
+	"projects.html",
+	"blog.html",
+	"main.html",
+	"header.html",
+	"footer.html",
+	"modal.html",
+	"main-htmx.html",
+	"tag.html",
 ))
 
 var techStack = map[string][]StackData{
