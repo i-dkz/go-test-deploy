@@ -199,49 +199,11 @@ func Main() {
 
 	router.HandleFunc("GET /", Handler)
 
-	// fs := http.FileServer(http.Dir("src"))
-	// router.Handle("/src/", http.StripPrefix("/src/", fs))
-
-	// local server for testing
-	server := http.Server{
-		Addr:    ":6969",
-		Handler: router,
-	}
-
-	log.Println("Now listening on port http://localhost:6969")
-	log.Fatal(server.ListenAndServe())
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintln(w, "<h1>Success</h1>")
 
-	// switch r.URL.Path {
-	// case "/":
-	// 	fmt.Fprintf(w, "<h1>Success</h1>")
-	// 	// err := templates.ExecuteTemplate(w, "index.html", techStack)
-	// 	// if err != nil {
-	// 	//     http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 	// }
-	// case "/projects":
-	// 	if r.Header.Get("HX-Request") == "true" {
-	// 		err := templates.ExecuteTemplate(w, "projects.html", tags)
-	// 		if err != nil {
-	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 		}
-	// 	} else {
-	// 		http.Redirect(w, r, "/", http.StatusFound)
-	// 	}
-	// case "/blog":
-	// 	if r.Header.Get("HX-Request") == "true" {
-	// 		err := templates.ExecuteTemplate(w, "blog.html", nil)
-	// 		if err != nil {
-	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 		}
-	// 	} else {
-	// 		http.Redirect(w, r, "/", http.StatusFound)
-	// 	}
-	// default:
-	// 	http.NotFound(w, r)
-	// }
 }
