@@ -197,13 +197,10 @@ var tags = map[string][]TagData{
 func Main() {
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", Handler)
-	// router.HandleFunc("GET /projects", HandleProjects)
-	// router.HandleFunc("GET /index", Handler)
-	// router.HandleFunc("GET /blog", HandleBlog)
+	router.HandleFunc("/", Handler)
 
 	fs := http.FileServer(http.Dir("src"))
-	router.Handle("GET /src/", http.StripPrefix("/src/", fs))
+	router.Handle("/src/", http.StripPrefix("/src/", fs))
 
 	// local server for testing
 	server := http.Server{
@@ -213,48 +210,36 @@ func Main() {
 
 	log.Println("Now listening on port http://localhost:6969")
 	log.Fatal(server.ListenAndServe())
-	// http.ListenAndServe(":8080", router)
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Success</h1>")
-	// err := templates.ExecuteTemplate(w, "index.html", techStack)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// }
+	switch r.URL.Path {
+	case "/":
+		fmt.Fprintf(w, "<h1>Success</h1>")
+		// err := templates.ExecuteTemplate(w, "index.html", techStack)
+		// if err != nil {
+		//     http.Error(w, err.Error(), http.StatusInternalServerError)
+		// }
+	case "/projects":
+		if r.Header.Get("HX-Request") == "true" {
+			RenderTemplate(w, "projects", tags)
+		} else {
+			http.Redirect(w, r, "/", http.StatusFound)
+		}
+	case "/blog":
+		if r.Header.Get("HX-Request") == "true" {
+			RenderTemplate(w, "blog", tags)
+		} else {
+			http.Redirect(w, r, "/", http.StatusFound)
+		}
+	default:
+		http.NotFound(w, r)
+	}
 }
 
-// func HandleIndex(w http.ResponseWriter, r *http.Request) {
-// 	RenderTemplate(w, "index", techStack)
-// }
-
-// func HandleMain(w http.ResponseWriter, r *http.Request) {
-// 	if r.Header.Get("HX-Request") == "true" {
-// 		RenderTemplate(w, "main-htmx", techStack)
-// 	} else {
-// 		http.Redirect(w, r, "/", http.StatusFound)
-// 	}
-// }
-
-// func HandleProjects(w http.ResponseWriter, r *http.Request) {
-// 	if r.Header.Get("HX-Request") == "true" {
-// 		RenderTemplate(w, "projects", tags)
-// 	} else {
-// 		http.Redirect(w, r, "/", http.StatusFound)
-// 	}
-// }
-
-// func HandleBlog(w http.ResponseWriter, r *http.Request) {
-// 	if r.Header.Get("HX-Request") == "true" {
-// 		RenderTemplate(w, "blog", tags)
-// 	} else {
-// 		http.Redirect(w, r, "/", http.StatusFound)
-// 	}
-// }
-
-// func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-// 	err := templates.ExecuteTemplate(w, tmpl+".html", data)
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 	}
-// }
+func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
+	err := templates.ExecuteTemplate(w, tmpl+".html", data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
