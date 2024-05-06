@@ -1,0 +1,88 @@
+{{ define "header" }}
+<header class="flex w-full justify-between items-center h-16">
+    <div
+      class="flex justify-center items-center w-[40px] h-[40px] rounded-lg font-bold bg-card text-card-foreground text-xl duration-300 hover:-rotate-12 hover:scale-90 cursor-pointer"
+      hx-get="/main"
+      hx-trigger="click"
+      hx-target="#target"
+      hx-swap="innerHTML swap:.1s transition:true"
+    >
+      ?
+    </div>
+    <div
+    class="flex items-center text-primary w-20 gap-6 relative"
+    x-data="{ switchOn: $persist(false) }"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      @click="clicked = !clicked"
+      class="lucide lucide-menu cursor-pointer"
+      ><line x1="4" x2="20" y1="12" y2="12"></line><line
+        x1="4"
+        x2="20"
+        y1="6"
+        y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg
+    >
+  
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      @click="switchOn = !switchOn; document.body.classList.toggle('dark', switchOn)"
+      class="lucide lucide-moon cursor-pointer absolute right-0"
+      x-show="!switchOn"
+      x-transition:enter="transition duration-700"
+      x-transition:enter-start="-rotate-90 scale-0"
+      
+      x-cloak
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+    </svg>
+  
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      @click="switchOn = !switchOn; document.body.classList.toggle('dark', switchOn)"
+      class="lucide lucide-sun cursor-pointer absolute right-0"
+      x-show="switchOn"
+      x-transition:enter="transition duration-700"
+      x-transition:enter-start="rotate-90 scale-0"
+  
+      x-cloak
+    >
+
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2"></path>
+        <path d="M12 20v2"></path>
+        <path d="m4.93 4.93 1.41 1.41"></path>
+        <path d="m17.66 17.66 1.41 1.41"></path>
+        <path d="M2 12h2"></path>
+        <path d="M20 12h2"></path>
+        <path d="m6.34 17.66-1.41 1.41"></path>
+        <path d="m19.07 4.93-1.41 1.41"></path>
+
+    </svg>
+  </div>
+  </header>
+{{ end }}
