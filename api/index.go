@@ -222,24 +222,23 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		// }
 	case "/projects":
 		if r.Header.Get("HX-Request") == "true" {
-			RenderTemplate(w, "projects", tags)
+			err := templates.ExecuteTemplate(w, "projects.html", tags)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 		} else {
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	case "/blog":
 		if r.Header.Get("HX-Request") == "true" {
-			RenderTemplate(w, "blog", tags)
+			err := templates.ExecuteTemplate(w, "blog.html", nil)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 		} else {
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	default:
 		http.NotFound(w, r)
-	}
-}
-
-func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	err := templates.ExecuteTemplate(w, tmpl+".html", data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
