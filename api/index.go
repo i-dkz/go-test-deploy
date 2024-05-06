@@ -20,15 +20,15 @@ type TagData struct {
 }
 
 var templates = template.Must(template.ParseFiles(
-	"src/views/index.html",
-	"src/views/projects.html",
-	"src/views/blog.html",
-	"src/views/components/main.html",
-	"src/views/components/header.html",
-	"src/views/components/footer.html",
-	"src/views/components/modal.html",
-	"src/views/components/main-htmx.html",
-	"src/views/components/tag.html",
+	"views/index.html",
+	"views/projects.html",
+	"views/blog.html",
+	"views/components/main.html",
+	"views/components/header.html",
+	"views/components/footer.html",
+	"views/components/modal.html",
+	"views/components/main-htmx.html",
+	"views/components/tag.html",
 ))
 
 var techStack = map[string][]StackData{
