@@ -1,5 +1,7 @@
 package handler
 
+// package main
+
 import (
 	"log"
 	"net/http"
@@ -30,7 +32,7 @@ import (
 // 	"tag.html",
 // ))
 
-var templates = template.Must(template.ParseFiles("home.html"))
+var templates = template.Must(template.ParseFiles("links.html"))
 
 // var techStack = map[string][]StackData{
 // 	"tech": {
@@ -196,13 +198,13 @@ var templates = template.Must(template.ParseFiles("home.html"))
 // }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	err := templates.ExecuteTemplate(w, "home.html", nil)
+	err := templates.ExecuteTemplate(w, "links.html", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
-func Main() {
+func main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", Handler)
