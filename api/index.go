@@ -33,7 +33,7 @@ import (
 // 	"tag.html",
 // ))
 
-var templates = template.Must(template.ParseFiles("links.html"))
+var templates = template.Must(template.ParseFiles("/links.html"))
 
 // var techStack = map[string][]StackData{
 // 	"tech": {
