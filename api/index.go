@@ -32,7 +32,7 @@ import (
 // 	"tag.html",
 // ))
 
-var templates = template.Must(template.ParseFiles("links.html"))
+var templates = template.Must(template.ParseFiles("api/links.html"))
 
 // var techStack = map[string][]StackData{
 // 	"tech": {
@@ -204,7 +204,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
+func Main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", Handler)
