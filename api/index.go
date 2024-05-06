@@ -3,10 +3,9 @@ package handler
 // package main
 
 import (
-	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"text/template"
 )
 
 // type StackData struct {
@@ -32,8 +31,6 @@ import (
 // 	"main-htmx.html",
 // 	"tag.html",
 // ))
-
-var templates = template.Must(template.ParseFiles("/links.html"))
 
 // var techStack = map[string][]StackData{
 // 	"tech": {
@@ -199,11 +196,16 @@ var templates = template.Must(template.ParseFiles("/links.html"))
 // }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// err := templates.ExecuteTemplate(w, "api/links.html", nil)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// }
-	fmt.Fprintf(w, "<h1>success</h1>")
+
+	tmpl, err := template.ParseFiles("links.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var templates = template.Must(tmpl, nil)
+
+	templates.ExecuteTemplate(w, "links.html", nil)
+
+	// fmt.Fprintf(w, "<h1>success</h1>")
 }
 
 func Main() {
