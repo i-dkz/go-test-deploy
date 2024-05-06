@@ -3,6 +3,7 @@ package handler
 // package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"text/template"
@@ -198,10 +199,11 @@ var templates = template.Must(template.ParseFiles("api/links.html"))
 // }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	err := templates.ExecuteTemplate(w, "api/links.html", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	// err := templates.ExecuteTemplate(w, "api/links.html", nil)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// }
+	fmt.Fprintf(w, "<h1>success</h1>")
 }
 
 func Main() {
