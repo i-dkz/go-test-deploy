@@ -1,6 +1,6 @@
-// package handler
+package handler
 
-package main
+// package main
 
 import (
 	"embed"
@@ -253,11 +253,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "index.html", techStack)
 }
 
-func main() {
+func Main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", Handler)
-	// router.HandleFunc("GET /output.css", Handler)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
