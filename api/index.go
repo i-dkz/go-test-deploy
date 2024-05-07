@@ -258,7 +258,7 @@ var tags = map[string][]TagData{
 //go:embed src/templates/*.html src/templates/components/*.html src/output.css src/public/*
 var templateFiles embed.FS
 
-var templates = template.Must(template.ParseFS(templateFiles, "templates/*.html", "templates/components/*.html"))
+var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "srtc/templates/components/*.html"))
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/output.css" {
