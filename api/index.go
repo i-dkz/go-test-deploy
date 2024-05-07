@@ -184,9 +184,9 @@ var tags = map[string][]TagData{
 	},
 }
 
-//go:embed src/* src/output.css src/public
+//go:embed src/*
 var templateFiles embed.FS
-var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
+var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html", "src/*.css"))
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	// switch r.URL.Path {
