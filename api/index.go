@@ -7,7 +7,6 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"strings"
 )
 
 type StackData struct {
@@ -191,28 +190,7 @@ var templateFiles embed.FS
 var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/output.css" {
 
-		w.Header().Set("Content-Type", "text/css")
-		outputCSS, _ := templateFiles.ReadFile("src/output.css")
-		w.Write(outputCSS)
-		// return
-	}
-
-	if strings.HasPrefix(r.URL.Path, "/src/public/") {
-		contentType := "image/svg+xml"
-		if strings.HasSuffix(r.URL.Path, ".png") {
-			contentType = "image/png"
-		}
-		w.Header().Set("Content-Type", contentType)
-		imageData, err := templateFiles.ReadFile(strings.TrimPrefix(r.URL.Path, "/"))
-		if err != nil {
-			http.NotFound(w, r)
-			return
-		}
-		w.Write(imageData)
-		return
-	}
 	// switch r.URL.Path {
 	// case "/":
 	// 	// fmt.Fprintf(w, "<h1>Success</h1>")
@@ -257,6 +235,10 @@ func Main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", Handler)
+
+	http.Handle("/src/", http.StripPrefix("/src/", http.FileServer(http.FS(templateFiles))))
+
+	template.ParseFS(templateFiles, "*.tmpl")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
