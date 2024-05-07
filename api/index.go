@@ -189,43 +189,44 @@ var templateFiles embed.FS
 var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/":
-		// fmt.Fprintf(w, "<h1>Success</h1>")
-		err := templates.ExecuteTemplate(w, "index.html", techStack)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	case "/projects":
-		if r.Header.Get("HX-Request") == "true" {
-			err := templates.ExecuteTemplate(w, "projects.html", tags)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-			}
-		} else {
-			http.Redirect(w, r, "/", http.StatusFound)
-		}
-	case "/blog":
-		if r.Header.Get("HX-Request") == "true" {
-			err := templates.ExecuteTemplate(w, "blog.html", tags)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-			}
-		} else {
-			http.Redirect(w, r, "/", http.StatusFound)
-		}
-	case "/main":
-		if r.Header.Get("HX-Request") == "true" {
-			err := templates.ExecuteTemplate(w, "main-htmx.html", techStack)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-			}
-		} else {
-			http.Redirect(w, r, "/", http.StatusFound)
-		}
-	default:
-		http.NotFound(w, r)
-	}
+	// switch r.URL.Path {
+	// case "/":
+	// 	// fmt.Fprintf(w, "<h1>Success</h1>")
+	// 	err := templates.ExecuteTemplate(w, "index.html", techStack)
+	// 	if err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	}
+	// case "/projects":
+	// 	if r.Header.Get("HX-Request") == "true" {
+	// 		err := templates.ExecuteTemplate(w, "projects.html", tags)
+	// 		if err != nil {
+	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		}
+	// 	} else {
+	// 		http.Redirect(w, r, "/", http.StatusFound)
+	// 	}
+	// case "/blog":
+	// 	if r.Header.Get("HX-Request") == "true" {
+	// 		err := templates.ExecuteTemplate(w, "blog.html", tags)
+	// 		if err != nil {
+	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		}
+	// 	} else {
+	// 		http.Redirect(w, r, "/", http.StatusFound)
+	// 	}
+	// case "/main":
+	// 	if r.Header.Get("HX-Request") == "true" {
+	// 		err := templates.ExecuteTemplate(w, "main-htmx.html", techStack)
+	// 		if err != nil {
+	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		}
+	// 	} else {
+	// 		http.Redirect(w, r, "/", http.StatusFound)
+	// 	}
+	// default:
+	// 	http.NotFound(w, r)
+	// }
+	templates.ExecuteTemplate(w, "index.html", techStack)
 }
 
 func Main() {
