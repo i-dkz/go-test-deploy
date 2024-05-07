@@ -239,10 +239,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 func Main() {
 	router := http.NewServeMux()
 
-	fs := http.FileServer(http.Dir("src"))
-	router.Handle("GET /src/", http.StripPrefix("/src/", fs))
-
 	router.HandleFunc("GET /", Handler)
+	router.HandleFunc("GET /output.css", Handler)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
