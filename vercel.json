@@ -1,7 +1,14 @@
 {
-    "build": {
-      "env": {
-        "GO_BUILD_FLAGS": "-ldflags '-s -w'"
-      }
+  "builds": [
+    {
+      "src": "index",
+      "use": "@vercel/static"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "index"
+    }
+  ]
+}
