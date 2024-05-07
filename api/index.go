@@ -184,7 +184,7 @@ var tags = map[string][]TagData{
 	},
 }
 
-//go:embed src/*
+//go:embed src/* src/output.css src/public
 var templateFiles embed.FS
 var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
 
