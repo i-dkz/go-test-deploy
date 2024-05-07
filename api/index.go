@@ -1,6 +1,6 @@
-// package handler
+package handler
 
-package main
+// package main
 
 import (
 	"bytes"
