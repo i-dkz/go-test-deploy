@@ -263,13 +263,13 @@ var templates = template.Must(template.ParseFS(templateFiles, "templates/*.html"
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/output.css" {
 		w.Header().Set("Content-Type", "text/css")
-		outputCSS, _ := templateFiles.ReadFile("output.css")
+		outputCSS, _ := templateFiles.ReadFile("src/output.css")
 		w.Write(outputCSS)
 		return
 	}
 
-	if strings.HasPrefix(r.URL.Path, "/public/") {
-		file, err := templateFiles.Open("public/" + strings.TrimPrefix(r.URL.Path, "/public/"))
+	if strings.HasPrefix(r.URL.Path, "/src/public/") {
+		file, err := templateFiles.Open("/src/public/" + strings.TrimPrefix(r.URL.Path, "/src/public/"))
 		if err != nil {
 			http.NotFound(w, r)
 			return
@@ -295,7 +295,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "index.html", techStack)
 }
 
-func main() {
+func Main() {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", Handler)
