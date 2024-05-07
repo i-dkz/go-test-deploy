@@ -3,10 +3,8 @@ package handler
 // package main
 
 import (
-	"bytes"
 	"embed"
 	"html/template"
-	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -188,110 +186,70 @@ var tags = map[string][]TagData{
 }
 
 //go:embed src/templates/*.html src/templates/components/*.html src/output.css src/public/*
-// var templateFiles embed.FS
-
-// var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
-
-// func Handler(w http.ResponseWriter, r *http.Request) {
-// 	if r.URL.Path == "/output.css" {
-
-// 		w.Header().Set("Content-Type", "text/css")
-// 		outputCSS, _ := templateFiles.ReadFile("src/output.css")
-// 		w.Write(outputCSS)
-// 		// return
-// 	}
-
-// 	if strings.HasPrefix(r.URL.Path, "/src/public/") {
-// 		contentType := "image/svg+xml"
-// 		if strings.HasSuffix(r.URL.Path, ".png") {
-// 			contentType = "image/png"
-// 		}
-// 		w.Header().Set("Content-Type", contentType)
-// 		imageData, err := templateFiles.ReadFile(strings.TrimPrefix(r.URL.Path, "/"))
-// 		if err != nil {
-// 			http.NotFound(w, r)
-// 			return
-// 		}
-// 		w.Write(imageData)
-// 		return
-// 	}
-// switch r.URL.Path {
-// case "/":
-// 	// fmt.Fprintf(w, "<h1>Success</h1>")
-// 	err := templates.ExecuteTemplate(w, "index.html", techStack)
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 	}
-// case "/projects":
-// 	if r.Header.Get("HX-Request") == "true" {
-// 		err := templates.ExecuteTemplate(w, "projects.html", tags)
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		}
-// 	} else {
-// 		http.Redirect(w, r, "/", http.StatusFound)
-// 	}
-// case "/blog":
-// 	if r.Header.Get("HX-Request") == "true" {
-// 		err := templates.ExecuteTemplate(w, "blog.html", tags)
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		}
-// 	} else {
-// 		http.Redirect(w, r, "/", http.StatusFound)
-// 	}
-// case "/main":
-// 	if r.Header.Get("HX-Request") == "true" {
-// 		err := templates.ExecuteTemplate(w, "main-htmx.html", techStack)
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		}
-// 	} else {
-// 		http.Redirect(w, r, "/", http.StatusFound)
-// 	}
-// default:
-// 	http.NotFound(w, r)
-// }
-// 	templates.ExecuteTemplate(w, "index.html", techStack)
-// }
-
-//go:embed src/templates/*.html src/templates/components/*.html src/output.css src/public/*
 var templateFiles embed.FS
 
-var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "srtc/templates/components/*.html"))
+var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/output.css" {
+
 		w.Header().Set("Content-Type", "text/css")
 		outputCSS, _ := templateFiles.ReadFile("src/output.css")
 		w.Write(outputCSS)
-		return
+		// return
 	}
 
 	if strings.HasPrefix(r.URL.Path, "/src/public/") {
-		file, err := templateFiles.Open("/src/public/" + strings.TrimPrefix(r.URL.Path, "/src/public/"))
+		contentType := "image/svg+xml"
+		if strings.HasSuffix(r.URL.Path, ".png") {
+			contentType = "image/png"
+		}
+		w.Header().Set("Content-Type", contentType)
+		imageData, err := templateFiles.ReadFile(strings.TrimPrefix(r.URL.Path, "/"))
 		if err != nil {
 			http.NotFound(w, r)
 			return
 		}
-		defer file.Close()
-
-		fileContent, err := io.ReadAll(file)
-		if err != nil {
-			http.NotFound(w, r)
-			return
-		}
-
-		fileInfo, err := file.Stat()
-		if err != nil {
-			http.NotFound(w, r)
-			return
-		}
-
-		http.ServeContent(w, r, fileInfo.Name(), fileInfo.ModTime(), bytes.NewReader(fileContent))
+		w.Write(imageData)
 		return
 	}
-
+	// switch r.URL.Path {
+	// case "/":
+	// 	// fmt.Fprintf(w, "<h1>Success</h1>")
+	// 	err := templates.ExecuteTemplate(w, "index.html", techStack)
+	// 	if err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	}
+	// case "/projects":
+	// 	if r.Header.Get("HX-Request") == "true" {
+	// 		err := templates.ExecuteTemplate(w, "projects.html", tags)
+	// 		if err != nil {
+	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		}
+	// 	} else {
+	// 		http.Redirect(w, r, "/", http.StatusFound)
+	// 	}
+	// case "/blog":
+	// 	if r.Header.Get("HX-Request") == "true" {
+	// 		err := templates.ExecuteTemplate(w, "blog.html", tags)
+	// 		if err != nil {
+	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		}
+	// 	} else {
+	// 		http.Redirect(w, r, "/", http.StatusFound)
+	// 	}
+	// case "/main":
+	// 	if r.Header.Get("HX-Request") == "true" {
+	// 		err := templates.ExecuteTemplate(w, "main-htmx.html", techStack)
+	// 		if err != nil {
+	// 			http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		}
+	// 	} else {
+	// 		http.Redirect(w, r, "/", http.StatusFound)
+	// 	}
+	// default:
+	// 	http.NotFound(w, r)
+	// }
 	templates.ExecuteTemplate(w, "index.html", techStack)
 }
 
