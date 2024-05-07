@@ -184,11 +184,18 @@ var tags = map[string][]TagData{
 	},
 }
 
-//go:embed src/*
+//go:embed src/templates/*.html src/templates/components/*.html src/output.css
 var templateFiles embed.FS
-var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html", "src/*.css"))
+
+var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path == "/output.css" {
+		w.Header().Set("Content-Type", "text/css")
+		outputCSS, _ := templateFiles.ReadFile("src/output.css")
+		w.Write(outputCSS)
+		return
+	}
 	// switch r.URL.Path {
 	// case "/":
 	// 	// fmt.Fprintf(w, "<h1>Success</h1>")
