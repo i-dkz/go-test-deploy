@@ -236,9 +236,9 @@ func Main() {
 
 	router.HandleFunc("GET /", Handler)
 
-	http.Handle("/src/", http.StripPrefix("/src/", http.FileServer(http.FS(templateFiles))))
+	router.Handle("/src/", http.StripPrefix("/src/", http.FileServer(http.FS(templateFiles))))
 
-	template.ParseFS(templateFiles, "*.tmpl")
+	template.ParseFS(templateFiles, "*.css", "*.png", "*.svg")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
