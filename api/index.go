@@ -3,6 +3,7 @@ package handler
 // package main
 
 import (
+	"embed"
 	"html/template"
 	"log"
 	"net/http"
@@ -195,17 +196,12 @@ import (
 // 	},
 // }
 
+//go:embed templates/*
+var templateFiles embed.FS
+
 func Handler(w http.ResponseWriter, r *http.Request) {
-
-	tmpl, err := template.ParseFiles("../links.html")
-	if err != nil {
-		log.Fatal(err)
-	}
-	var templates = template.Must(tmpl, nil)
-
+	templates := template.Must(template.ParseFS(templateFiles, "templates/*.html"))
 	templates.ExecuteTemplate(w, "links.html", nil)
-
-	// fmt.Fprintf(w, "<h1>success</h1>")
 }
 
 func Main() {

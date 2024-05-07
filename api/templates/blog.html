@@ -1,0 +1,131 @@
+
+<div class="w-full flex flex-wrap gap-8 justify-center text-primary mt-20">
+    <div class="flex flex-col gap-12 pb-16 border-b">
+      <div class="flex flex-wrap gap-4 justify-between w-full">
+        <h1 class="text-4xl font-bold tracking-tight">BestBuy SKU Setup Portal</h1>
+        <div class="flex gap-4">
+          <a href="https://bby-htmx.vercel.app/" target="_blank">
+            <button
+              class="p-2 border rounded-md bg-card text-card-foreground font-medium"
+              >View Project</button
+            ></a
+          >
+  
+          <a href="https://github.com/i-dkz/bby-htmx" target="_blank">
+            <button
+              class="p-2 border rounded-md bg-card text-card-foreground font-medium"
+              >View Git Repo</button
+            ></a
+          >
+        </div>
+      </div>
+      <div class="flex gap-8 flex-wrap sm:flex-nowrap">
+        <div class="w-[350px] lg:w-[50%]">
+          <img src="src/public/bby-htmx.png" alt="" class="rounded-md shadow-lg" />
+        </div>
+        <div
+          class="flex flex-col gap-6 w-[350px] sm:w-[250px] md:w-[300px] lg:w-[50%]"
+        >
+          <p class="">
+            This is a proof of concept to help replace BestBuy's SKU onboarding
+            experience for vendors.
+          </p>
+          <p>
+            Users can create an account, login. Once logged in they can begin
+            onboarding SKUs. Using javascript they can upload excel files, and the
+            app has the ability to read text pdf's and sends an API request to
+            OpenAI to analyze the pdf information. User can select from the
+            uploaded pdf and the corresponding MSDS information autopopulates the
+            form.
+          </p>
+          <div class="w-full flex gap-2 flex-wrap">
+            {{ range .bbyHtmx }}
+              {{template "tag" .}}
+            {{end}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-12 pb-16 border-b">
+      <div class="flex flex-wrap gap-4 justify-between w-full">
+        <h1 class="text-4xl font-bold tracking-tight">nxtStore</h1>
+        <div class="flex gap-4">
+          <a href="https://nxt-store.vercel.app/" target="_blank">
+            <button
+              class="p-2 border rounded-md bg-card text-card-foreground font-medium"
+              >View Project</button
+            ></a
+          >
+  
+          <a href="https://github.com/i-dkz/nxtStore" target="_blank">
+            <button
+              class="p-2 border rounded-md bg-card text-card-foreground font-medium"
+              >View Git Repo</button
+            ></a
+          >
+        </div>
+      </div>
+      <div class="flex gap-8 flex-wrap sm:flex-nowrap">
+        <div class="w-[350px] lg:w-[50%]">
+          <img src="src/public/nxtstore.png" alt="" class="rounded-md shadow-lg" />
+        </div>
+        <div
+          class="flex flex-col gap-6 w-[350px] sm:w-[250px] md:w-[300px] lg:w-[50%]"
+        >
+          <p class="">
+            The aim of this project was to demonstrate my ability to create a
+            nice, modern storefront, capable of requesting data from an API and
+            displaying the data to the user.
+          </p>
+          <p>
+            The user can add and delete items from the cart, and search for items.
+          </p>
+          <div class="w-full flex gap-2 flex-wrap">
+            {{ range .nxtStore }}
+              {{template "tag" .}}
+            {{end}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-12 pb-16 ">
+      <div class="flex flex-wrap gap-4 justify-between w-full">
+        <h1 class="text-4xl font-bold tracking-tight">Gameplus</h1>
+        <div class="flex gap-4">
+          <a href="https://grand-monstera-b8f151.netlify.app/" target="_blank">
+            <button
+              class="p-2 border rounded-md bg-card text-card-foreground font-medium"
+              >View Project
+            </button></a
+          >
+    
+          <a href="https://github.com/i-dkz/react-refresh" target="_blank">
+            <button
+              class="p-2 border rounded-md bg-card text-card-foreground font-medium"
+              >View Git Repo</button
+            ></a
+          >
+        </div>
+      </div>
+      <div class="flex gap-8 flex-wrap sm:flex-nowrap">
+        <div class="w-[350px] lg:w-[50%]">
+          <img src="src/public/gameplus1.jpeg" alt="" class="rounded-md shadow-lg" />
+        </div>
+        <div
+          class="flex flex-col gap-6 w-[350px] sm:w-[250px] md:w-[300px] lg:w-[50%]"
+        >
+          <p class="">
+            This is a game directory app that shows up to date games from the
+            RAWG.io API. The user has search functionality, and filtering to find
+            the most up to date games.
+          </p>
+    
+          <div class="w-full flex gap-2 flex-wrap">
+            {{ range .gamePlus }}
+              {{template "tag" .}}
+            {{end}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
