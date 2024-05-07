@@ -21,18 +21,6 @@ type TagData struct {
 	Title string
 }
 
-// var templates = template.Must(template.ParseFiles(
-// 	"home.html",
-// 	"projects.html",
-// 	"blog.html",
-// 	"main.html",
-// 	"header.html",
-// 	"footer.html",
-// 	"modal.html",
-// 	"main-htmx.html",
-// 	"tag.html",
-// ))
-
 var techStack = map[string][]StackData{
 	"tech": {
 		{
@@ -200,30 +188,38 @@ var tags = map[string][]TagData{
 var templateFiles embed.FS
 var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
 
-// func Handler(w http.ResponseWriter, r *http.Request) {
-// 	templates.ExecuteTemplate(w, "index.html", techStack)
-// }
-
 func Handler(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/":
 		// fmt.Fprintf(w, "<h1>Success</h1>")
-		RenderTemplate(w, "index", techStack)
+		err := templates.ExecuteTemplate(w, "index.html", techStack)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	case "/projects":
 		if r.Header.Get("HX-Request") == "true" {
-			RenderTemplate(w, "projects", tags)
+			err := templates.ExecuteTemplate(w, "projects.html", tags)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 		} else {
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	case "/blog":
 		if r.Header.Get("HX-Request") == "true" {
-			RenderTemplate(w, "blog", tags)
+			err := templates.ExecuteTemplate(w, "blog.html", tags)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 		} else {
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	case "/main":
 		if r.Header.Get("HX-Request") == "true" {
-			RenderTemplate(w, "main-htmx", techStack)
+			err := templates.ExecuteTemplate(w, "main-htmx.html", techStack)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 		} else {
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
@@ -241,11 +237,4 @@ func Main() {
 	router.HandleFunc("GET /", Handler)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
-}
-
-func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	err := templates.ExecuteTemplate(w, tmpl+".html", data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
 }
