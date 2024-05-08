@@ -184,13 +184,43 @@ var tags = map[string][]TagData{
 	},
 }
 
-//go:embed src/templates/*.html src/templates/components/*.html src/output.css src/public/*
-var templateFiles embed.FS
+//go:embed all:src
+var staticFiles embed.FS
+var templates = template.Must(template.ParseFS(staticFiles, "src/templates/*.html", "src/templates/components/*.html"))
 
-var templates = template.Must(template.ParseFS(templateFiles, "src/templates/*.html", "src/templates/components/*.html"))
+func Main() {
+	router := http.NewServeMux()
+	fs := http.FileServer(http.Dir("src"))
+	router.Handle("GET /src/", http.StripPrefix("/src/", fs))
+
+	router.HandleFunc("GET /", Handler)
+
+	log.Fatal(http.ListenAndServe(":8080", router))
+}
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	// if r.URL.Path == "/output.css" {
 
+	// 	w.Header().Set("Content-Type", "text/css")
+	// 	outputCSS, _ := staticFiles.ReadFile("src/output.css")
+	// 	w.Write(outputCSS)
+	// 	return
+	// }
+
+	// if strings.HasPrefix(r.URL.Path, "/src/public/") && (strings.HasSuffix(r.URL.Path, ".svg") || strings.HasSuffix(r.URL.Path, ".png")) {
+	// 	contentType := "image/svg+xml"
+	// 	if strings.HasSuffix(r.URL.Path, ".png") {
+	// 		contentType = "image/png"
+	// 	}
+	// 	w.Header().Set("Content-Type", contentType)
+	// 	imageData, err := staticFiles.ReadFile(strings.TrimPrefix(r.URL.Path, "/"))
+	// 	if err != nil {
+	// 		http.NotFound(w, r)
+	// 		return
+	// 	}
+	// 	w.Write(imageData)
+	// 	return
+	// }
 	// switch r.URL.Path {
 	// case "/":
 	// 	// fmt.Fprintf(w, "<h1>Success</h1>")
@@ -229,16 +259,4 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// 	http.NotFound(w, r)
 	// }
 	templates.ExecuteTemplate(w, "index.html", techStack)
-}
-
-func Main() {
-	router := http.NewServeMux()
-
-	router.HandleFunc("GET /", Handler)
-
-	router.Handle("/src/", http.StripPrefix("/src/", http.FileServer(http.FS(templateFiles))))
-
-	template.ParseFS(templateFiles, "*.css", "*.png", "*.svg")
-
-	log.Fatal(http.ListenAndServe(":8080", router))
 }
